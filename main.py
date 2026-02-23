@@ -17,6 +17,7 @@ NODE_RADIUS = 15
 NODE_COLOR = BLUE
 GRAPH_PATH = "graph.txt"
 statbuf = os.stat(GRAPH_PATH)
+active_node = None
 
 class node:
 	def __init__(self, 
@@ -29,13 +30,17 @@ class node:
 		self.color  = color
 		self.adjacencies = adjacencies
 
+		rect_center = (center[0] - radius, center[1] - radius)
+
+		self.body = pygame.Rect(rect_center, (self.radius*2, self.radius*2))
+
 node_list: list[node] = []
 
 def draw_node(n: node) -> None:
-	pygame.draw.circle(DISPLAYSURF, n.color, n.center, n.radius)
+	pygame.draw.circle(DISPLAYSURF, n.color, n.body.center, n.radius)
 
 def connect_nodes(n: node, m: node) -> None:
-	pygame.draw.line(DISPLAYSURF, BLACK, n.center, m.center)
+	pygame.draw.line(DISPLAYSURF, BLACK, n.body.center, m.center)
 
 def init_screen():
 	pygame.init()
@@ -69,19 +74,40 @@ def read_graph() -> None:
 			i += 1
 
 def draw_graph() -> None:
+	DISPLAYSURF.fill(WHITE)
 	for i, node in enumerate(node_list):
 		for a in node.adjacencies:
 			connect_nodes(node_list[i], node_list[a])
-		draw_node(node_list[i]);
+	for i, node in enumerate(node_list):
+		draw_node(node_list[i])
+
+def move_node(idx: int, event_rel) -> None:
+	node_list[idx].body.move_ip(event_rel)
+	node_list[idx].center = node_list[idx].body.center
 
 def main():
 	init_screen()
+	global active_node
 
 	while True:
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
+
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				if event.button == 1:
+					for idx, node in enumerate(node_list):
+						if node.body.collidepoint(event.pos):
+							active_node = idx
+
+			if event.type == MOUSEBUTTONUP:
+				if event.button == 1:
+					active_node = None
+
+			if event.type == pygame.MOUSEMOTION:
+				if active_node != None:
+					move_node(active_node, event.rel)
 
 			read_graph()
 
