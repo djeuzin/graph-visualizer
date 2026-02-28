@@ -3,7 +3,7 @@ import os
 
 SCREEN_WIDTH:  int = 900
 SCREEN_HEIGHT: int = 700
-GRAPH_PATH:    str = "graph.txt"
+GRAPH_PATH:    str = "src/graph.txt"
 NODE_RADIUS:   int = 15
 
 BLUE:  (int, int, int) = (0, 0, 255)
