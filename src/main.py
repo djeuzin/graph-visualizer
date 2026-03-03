@@ -8,12 +8,6 @@ from node import *
 from graph import graph
 from globals import *
 
-# TODO list:
-# [ ] Add gravity on nodes
-# [ ] Settle for a graph representation
-# [ ] Add graph editor UI to add nodes and edges
-
-
 def init_screen():
 	pygame.init()
 	DISPLAYSURF.fill(WHITE)
