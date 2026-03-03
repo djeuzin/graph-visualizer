@@ -15,4 +15,3 @@ WHITE: (int, int, int) = (255, 255, 255)
 NODE_COLOR: (int, int, int) = BLUE
 
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-statbuf = os.stat(GRAPH_PATH)

@@ -8,39 +8,40 @@ from pygame import draw
 @dataclass
 class graph:
 	nodes: list[node]
+	statbuf: os.stat_result
 
 	def __init__(self) -> None:
 		self.nodes = []
+		self.statbuf = os.stat(GRAPH_PATH)
 
-	def __read_file(self, statbuf) -> None:
+	def __read_file(self) -> None:
 		nStatbuf = os.stat(GRAPH_PATH)
 
-		if nStatbuf.st_mtime == statbuf.st_mtime and len(self.nodes) != 0:
+		if nStatbuf.st_mtime == self.statbuf.st_mtime and len(self.nodes) != 0:
 			return
 
-		statbuf = nStatbuf
+		self.statbuf = nStatbuf
 		self.nodes = []
-		V: int = 0
 
 		with open(GRAPH_PATH) as lines:
 			for line in lines:
-				if V == 0:
-					V = int(line)
-					continue
-
 				center = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
-				self.nodes.append(node(center, adjacencies=[int(x) for x in line.split()]))
+				adj = [int(x) for x in line.split()]
+				self.nodes.append(node(center, 
+									   adjacencies=[i for i, val in enumerate(adj) if val != 0]))
 
 	def __connect_nodes(self, n: node, m: node) -> None:
 		pygame.draw.line(DISPLAYSURF, BLACK, n.body.center, m.center)
 
 	def draw(self) -> None:
-		self.__read_file(statbuf)
+		self.__read_file()
 
 		DISPLAYSURF.fill(WHITE)
-		for i, node in enumerate(self.nodes):
+
+		for node in self.nodes:
 			for a in node.adjacencies:
-				self.__connect_nodes(self.nodes[i], self.nodes[a])
+				self.__connect_nodes(node, self.nodes[a])
+
 		for node in self.nodes:
 			node.draw_node(DISPLAYSURF)
 
