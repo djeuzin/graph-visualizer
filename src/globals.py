@@ -15,3 +15,6 @@ WHITE: (int, int, int) = (255, 255, 255)
 NODE_COLOR: (int, int, int) = BLUE
 
 DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.font.init()
+font_path = pygame.font.get_default_font()
+my_font = pygame.font.SysFont(font_path, 30)

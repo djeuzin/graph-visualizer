@@ -9,6 +9,7 @@ class node:
 	color:  (int, int, int)
 	adjacencies: list[int]
 	body: Rect
+	visited: bool
 
 	def __init__(self, 
 				center: (int, int), 
@@ -21,6 +22,7 @@ class node:
 		self.adjacencies = adjacencies
 		rect_center = (center[0] - radius, center[1] - radius)
 		self.body = Rect(rect_center, (self.radius*2, self.radius*2))
+		self.visited = False
 
 	def draw_node(self, surface) -> None:
 		draw.circle(surface, self.color, self.body.center, self.radius)
