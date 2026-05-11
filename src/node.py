@@ -24,5 +24,5 @@ class Node:
 		self.body = Rect(rect_center, (self.radius*2, self.radius*2))
 		self.visited = False
 
-	def draw_node(self, surface) -> None:
-		draw.circle(surface, self.color, self.body.center, self.radius)
+	def draw_node(self, surface, color) -> None:
+		draw.circle(surface, color, self.body.center, self.radius)

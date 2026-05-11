@@ -20,7 +20,6 @@ def main():
 
 	G = graph()
 	active_node = None
-	to_connect = []
 
 	while True:
 		for event in pygame.event.get():
@@ -30,15 +29,23 @@ def main():
 
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if G.edit_mode:
-					if len(to_connect) == 2:
-						G.connect(to_connect[0], to_connect[1])
-						to_connect = []
 					if event.button == 1:
 						for key in G.nodes.keys():
 							node = G.nodes[key]
 
-							if node.body.collidepoint(event.pos) and node not in to_connect:
-								to_connect.append(node)
+							if node.body.collidepoint(event.pos) and node not in G.to_connect:
+								G.to_connect.append(node)
+						if len(G.to_connect) == 2:
+							G.connect(G.to_connect[0], G.to_connect[1])
+							G.to_connect = []
+					if event.button == 3:
+						for key in G.nodes.keys():
+							node = G.nodes[key]
+
+							if node.body.collidepoint(event.pos):
+								G.to_connect = []
+								G.remove(node)
+								break
 				else:
 					if event.button == 1:
 						for key in G.nodes.keys():
@@ -55,7 +62,7 @@ def main():
 			if event.type == KEYDOWN:
 				if event.key == pygame.K_e:
 					G.edit_mode = not G.edit_mode
-					to_connect = []
+					G.to_connect = []
 
 			if event.type == MOUSEBUTTONUP:
 				if event.button == 1:

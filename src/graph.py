@@ -24,6 +24,7 @@ class graph:
 		self.nodes = {}
 		self.V = self.E = 0
 		self.edit_mode = False
+		self.to_connect = []
 
 		for node in self.adjacency_dict.keys():
 			self.deg_list.append(len(self.adjacency_dict[node]))
@@ -51,7 +52,8 @@ class graph:
 		for node in self.adjacency_dict.keys():
 			n = self.nodes[node]
 
-			n.draw_node(DISPLAYSURF)
+			color = BLUE if n not in self.to_connect else GREEN
+			n.draw_node(DISPLAYSURF, color)
 			label = label_font.render(f"{n.name}", False, WHITE)
 			label_center = tuple(x + y for x, y in zip(n.center, label_offset))
 			DISPLAYSURF.blit(label, label_center)
@@ -82,10 +84,6 @@ class graph:
 		name1 = n1.name
 		name2 = n2.name
 
-		print(f"Adjacência de {name1}: {self.adjacency_dict[name1]}")
-		print(f"Adjacência de {name2}: {self.adjacency_dict[name2]}")
-		print(f"{name1} está na lista de {name2}? {name1 in self.adjacency_dict[name2]}")
-
 		if name1 not in self.adjacency_dict[name2]:
 			self.E += 1
 			self.adjacency_dict[name1].append(name2)
@@ -93,3 +91,20 @@ class graph:
 
 			with open(GRAPH_PATH, 'w') as file:
 				json.dump(self.adjacency_dict, file, indent=4)
+
+	def remove(self, n1: Node) -> None:
+		name = n1.name
+
+		nbs = self.adjacency_dict[name]
+		self.E -= len(nbs)
+		self.V -= 1
+
+		del self.nodes[name]
+		
+		for nb in nbs:
+			self.adjacency_dict[nb].remove(name)
+
+		del self.adjacency_dict[name]
+
+		with open(GRAPH_PATH, 'w') as file:
+			json.dump(self.adjacency_dict, file, indent=4)
