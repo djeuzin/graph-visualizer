@@ -3,23 +3,23 @@ from pygame import Rect, draw
 from globals import *
 
 @dataclass
-class node:
+class Node:
 	center: (int, int)
 	radius: float
 	color:  (int, int, int)
-	adjacencies: list[int]
 	body: Rect
 	visited: bool
+	name: str
 
 	def __init__(self, 
-				center: (int, int), 
+				center: (int, int),
+				name: str, 
 				radius: float = NODE_RADIUS, 
-				color: (int, int, int) = NODE_COLOR,
-				adjacencies: list[int] = []):
+				color: (int, int, int) = NODE_COLOR):
 		self.center = center
+		self.name = name
 		self.radius = radius
 		self.color  = color
-		self.adjacencies = adjacencies
 		rect_center = (center[0] - radius, center[1] - radius)
 		self.body = Rect(rect_center, (self.radius*2, self.radius*2))
 		self.visited = False
