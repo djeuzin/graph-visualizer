@@ -47,6 +47,9 @@ class graph:
 			n, _ = self.adjacency_dict[node]
 
 			n.draw_node(DISPLAYSURF)
+			label = label_font.render(f"{n.name}", False, WHITE)
+			label_center = tuple(x + y for x, y in zip(n.center, label_offset))
+			DISPLAYSURF.blit(label, label_center)
 			n.visited = False
 
 		text_surface = my_font.render(f"Number of vertices: {self.V}", False, (0, 0, 0))
