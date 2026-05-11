@@ -13,6 +13,8 @@ class graph:
 	E: int
 	deg_list: list[int]
 	nodes: dict[str, list[Node]]
+	edit_mode: bool
+	to_connect: list[Node]
 
 	def __init__(self) -> None:
 		with open(GRAPH_PATH, 'r') as file:
@@ -21,6 +23,7 @@ class graph:
 		self.deg_list = []
 		self.nodes = {}
 		self.V = self.E = 0
+		self.edit_mode = False
 
 		for node in self.adjacency_dict.keys():
 			self.deg_list.append(len(self.adjacency_dict[node]))
@@ -58,6 +61,9 @@ class graph:
 		DISPLAYSURF.blit(text_surface, (0,0))
 		text_surface = my_font.render(f"Number of edges: {self.E}", False, (0, 0, 0))
 		DISPLAYSURF.blit(text_surface, (0,20))
+		str_mode = "add/move" if not self.edit_mode else "connect/delete"
+		text_surface = my_font.render(f"Modo: {str_mode}", False, (0, 0, 0))
+		DISPLAYSURF.blit(text_surface, (0, 40))
 
 	def move_node(self, node: Node, rel_pos: (int, int)) -> None:
 		node.body.move_ip(rel_pos)
@@ -71,3 +77,19 @@ class graph:
 			json.dump(self.adjacency_dict, file, indent=4)
 
 		self.V += 1
+
+	def connect(self, n1: Node, n2: Node) -> None:
+		name1 = n1.name
+		name2 = n2.name
+
+		print(f"Adjacência de {name1}: {self.adjacency_dict[name1]}")
+		print(f"Adjacência de {name2}: {self.adjacency_dict[name2]}")
+		print(f"{name1} está na lista de {name2}? {name1 in self.adjacency_dict[name2]}")
+
+		if name1 not in self.adjacency_dict[name2]:
+			self.E += 1
+			self.adjacency_dict[name1].append(name2)
+			self.adjacency_dict[name2].append(name1)
+
+			with open(GRAPH_PATH, 'w') as file:
+				json.dump(self.adjacency_dict, file, indent=4)
