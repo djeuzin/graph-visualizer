@@ -11,5 +11,5 @@ All code written by a human without AI assistance of any kind.
 # TODO list:
 - [ ] Add gravity on nodes
 - [X] Settle for a graph representation -> adjacency matrix
-- [ ] Add graph editor UI to add nodes and edges
-- [ ] Add edge counter
+- [x] Add graph editor UI to add nodes and edges
+- [x] Add edge counter
