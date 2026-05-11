@@ -29,8 +29,8 @@ def main():
 
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if event.button == 1:
-					for key in G.adjacency_dict.keys():
-						node, _ = G.adjacency_dict[key]
+					for key in G.nodes.keys():
+						node = G.nodes[key]
 
 						if node.body.collidepoint(event.pos):
 							active_node = node

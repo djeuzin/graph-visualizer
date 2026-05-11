@@ -12,21 +12,23 @@ class graph:
 	V: int
 	E: int
 	deg_list: list[int]
+	nodes: dict[str, list[Node]]
 
 	def __init__(self) -> None:
 		with open(GRAPH_PATH, 'r') as file:
 			self.adjacency_dict = json.load(file)
 
 		self.deg_list = []
-
+		self.nodes = {}
 		self.V = self.E = 0
 
 		for node in self.adjacency_dict.keys():
 			self.deg_list.append(len(self.adjacency_dict[node]))
 			self.E += self.deg_list[-1]
 			self.V += 1
+
 			center = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
-			self.adjacency_dict[node] = (Node(center, node), self.adjacency_dict[node])
+			self.nodes[node] = Node(center, node)
 
 		self.E = self.E//2
 
@@ -36,15 +38,15 @@ class graph:
 	def draw(self) -> None:
 		DISPLAYSURF.fill(WHITE)
 
-		for node in self.adjacency_dict.keys():
-			n1, _ = self.adjacency_dict[node]
+		for node in self.nodes.keys():
+			n1 = self.nodes[node]
 
-			for a in self.adjacency_dict[node][1]:
-				n2, _ = self.adjacency_dict[a]
+			for a in self.adjacency_dict[node]:
+				n2 = self.nodes[a]
 				self._connect_nodes(n1, n2)
 
 		for node in self.adjacency_dict.keys():
-			n, _ = self.adjacency_dict[node]
+			n = self.nodes[node]
 
 			n.draw_node(DISPLAYSURF)
 			label = label_font.render(f"{n.name}", False, WHITE)
@@ -60,3 +62,11 @@ class graph:
 	def move_node(self, node: Node, rel_pos: (int, int)) -> None:
 		node.body.move_ip(rel_pos)
 		node.center = node.body.center
+
+	def add(self, node: Node) -> None:
+		self.adjacency_dict[node.name] = (node, [])
+
+		with open(GRAPH_PATH, 'w') as file:
+			json.dump(self.adjacency_dict, file, indent=4)
+
+		self.V += 1
