@@ -64,7 +64,8 @@ class graph:
 		node.center = node.body.center
 
 	def add(self, node: Node) -> None:
-		self.adjacency_dict[node.name] = (node, [])
+		self.adjacency_dict[node.name] = []
+		self.nodes[node.name] = node
 
 		with open(GRAPH_PATH, 'w') as file:
 			json.dump(self.adjacency_dict, file, indent=4)

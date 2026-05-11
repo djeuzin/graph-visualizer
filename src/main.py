@@ -34,6 +34,11 @@ def main():
 
 						if node.body.collidepoint(event.pos):
 							active_node = node
+				if event.button == 3:
+					new_center = pygame.mouse.get_pos()
+					new_node = Node(new_center, f"v{G.V+1}")
+
+					G.add(new_node)
 
 			if event.type == MOUSEBUTTONUP:
 				if event.button == 1:
