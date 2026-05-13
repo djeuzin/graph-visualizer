@@ -21,7 +21,6 @@ def init_graph() -> Graph:
 	G.font_path = pygame.font.get_default_font()
 	G.my_font = pygame.font.SysFont(G.font_path, 30)
 	G.label_font = pygame.font.SysFont(G.font_path, 18)
-	G.label_offset = (-7, -7)
 	
 	FPS.tick(60)
 	pygame.display.set_caption("Graph visualizer")

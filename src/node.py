@@ -10,6 +10,7 @@ class Node:
 	body: Rect
 	visited: bool
 	name: str
+	label_offset: (int, int)
 
 	def __init__(self, 
 				center: (int, int),
@@ -23,6 +24,11 @@ class Node:
 		rect_center = (center[0] - radius, center[1] - radius)
 		self.body = Rect(rect_center, (self.radius*2, self.radius*2))
 		self.visited = False
+		self.label_offset = (-7, -7)
 
-	def draw_node(self, surface, color) -> None:
+	def draw_node(self, surface, color, label_font) -> None:
 		draw.circle(surface, color, self.body.center, self.radius)
+
+		label = label_font.render(f"{self.name}", False, WHITE)
+		label_center = tuple(x + y for x, y in zip(self.center, self.label_offset))
+		surface.blit(label, label_center)

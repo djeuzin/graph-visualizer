@@ -18,7 +18,6 @@ class Graph:
 	font_path: pygame.font
 	my_font: pygame.font
 	label_font: pygame.font
-	label_offset: (int, int)
 
 	def __init__(self) -> None:
 		with open(GRAPH_PATH, 'r') as file:
@@ -59,11 +58,8 @@ class Graph:
 			n = self.nodes[node]
 
 			color = BLUE if n not in self.to_connect else GREEN
-			n.draw_node(self.surface, color)
-			label = self.label_font.render(f"{n.name}", False, WHITE)
-			label_center = tuple(x + y for x, y in zip(n.center, self.label_offset))
-			self.surface.blit(label, label_center)
-			n.visited = False
+			
+			n.draw_node(self.surface, color, self.label_font)
 
 		text_surface = self.my_font.render(f"Number of vertices: {self.V}", False, (0, 0, 0))
 		self.surface.blit(text_surface, (0,0))
