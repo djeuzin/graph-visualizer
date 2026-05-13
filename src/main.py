@@ -4,7 +4,7 @@ import typing
 from pygame.locals import *
 import random
 import os
-from node import *
+from node import Node
 from graph import Graph
 from globals import *
 
@@ -36,6 +36,7 @@ def main():
 	while True:
 		for event in pygame.event.get():
 			if event.type == QUIT:
+				G.save_in_file()
 				pygame.quit()
 				sys.exit()
 

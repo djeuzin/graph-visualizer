@@ -84,9 +84,6 @@ class Graph:
 		self.adjacency_dict[node.name] = []
 		self.nodes[node.name] = node
 
-		with open(GRAPH_PATH, 'w') as file:
-			json.dump(self.adjacency_dict, file, indent=4)
-
 		self.V += 1
 
 	def connect(self, n1: Node, n2: Node) -> None:
@@ -97,9 +94,6 @@ class Graph:
 			self.E += 1
 			self.adjacency_dict[name1].append(name2)
 			self.adjacency_dict[name2].append(name1)
-
-			with open(GRAPH_PATH, 'w') as file:
-				json.dump(self.adjacency_dict, file, indent=4)
 
 	def remove(self, n1: Node) -> None:
 		name = n1.name
@@ -114,6 +108,3 @@ class Graph:
 			self.adjacency_dict[nb].remove(name)
 
 		del self.adjacency_dict[name]
-
-		with open(GRAPH_PATH, 'w') as file:
-			json.dump(self.adjacency_dict, file, indent=4)
