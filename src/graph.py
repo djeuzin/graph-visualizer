@@ -61,6 +61,9 @@ class Graph:
 			
 			n.draw_node(self.surface, color, self.label_font)
 
+		self._display_information()
+
+	def _display_information(self):
 		text_surface = self.my_font.render(f"Number of vertices: {self.V}", False, (0, 0, 0))
 		self.surface.blit(text_surface, (0,0))
 		text_surface = self.my_font.render(f"Number of edges: {self.E}", False, (0, 0, 0))
