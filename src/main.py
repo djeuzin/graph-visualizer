@@ -5,7 +5,7 @@ from pygame.locals import *
 import random
 import os
 from node import *
-from graph import graph
+from graph import Graph
 from globals import *
 
 def init_screen():
@@ -18,7 +18,7 @@ def init_screen():
 def main():
 	init_screen()
 
-	G = graph()
+	G = Graph()
 	active_node = None
 
 	while True:

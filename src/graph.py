@@ -7,7 +7,7 @@ from pygame import draw
 import json
 
 @dataclass
-class graph:
+class Graph:
 	adjacency_dict: dict[str, list[str]]
 	V: int
 	E: int
