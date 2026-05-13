@@ -15,6 +15,11 @@ class Graph:
 	nodes: dict[str, list[Node]]
 	edit_mode: bool
 	to_connect: list[Node]
+	DISPLAYSURF: pygame.surface
+	font_path: pygame.font
+	my_font: pygame.font
+	label_font: pygame.font
+	label_offset: (int, int)
 
 	def __init__(self) -> None:
 		with open(GRAPH_PATH, 'r') as file:
@@ -37,10 +42,10 @@ class Graph:
 		self.E = self.E//2
 
 	def _connect_nodes(self, n: Node, m: Node) -> None:
-		pygame.draw.line(DISPLAYSURF, BLACK, n.center, m.center)
+		pygame.draw.line(self.DISPLAYSURF, BLACK, n.center, m.center)
 
 	def draw(self) -> None:
-		DISPLAYSURF.fill(WHITE)
+		self.DISPLAYSURF.fill(WHITE)
 
 		for node in self.nodes.keys():
 			n1 = self.nodes[node]
@@ -53,19 +58,19 @@ class Graph:
 			n = self.nodes[node]
 
 			color = BLUE if n not in self.to_connect else GREEN
-			n.draw_node(DISPLAYSURF, color)
-			label = label_font.render(f"{n.name}", False, WHITE)
-			label_center = tuple(x + y for x, y in zip(n.center, label_offset))
-			DISPLAYSURF.blit(label, label_center)
+			n.draw_node(self.DISPLAYSURF, color)
+			label = self.label_font.render(f"{n.name}", False, WHITE)
+			label_center = tuple(x + y for x, y in zip(n.center, self.label_offset))
+			self.DISPLAYSURF.blit(label, label_center)
 			n.visited = False
 
-		text_surface = my_font.render(f"Number of vertices: {self.V}", False, (0, 0, 0))
-		DISPLAYSURF.blit(text_surface, (0,0))
-		text_surface = my_font.render(f"Number of edges: {self.E}", False, (0, 0, 0))
-		DISPLAYSURF.blit(text_surface, (0,20))
+		text_surface = self.my_font.render(f"Number of vertices: {self.V}", False, (0, 0, 0))
+		self.DISPLAYSURF.blit(text_surface, (0,0))
+		text_surface = self.my_font.render(f"Number of edges: {self.E}", False, (0, 0, 0))
+		self.DISPLAYSURF.blit(text_surface, (0,20))
 		str_mode = "add/move" if not self.edit_mode else "connect/delete"
-		text_surface = my_font.render(f"Modo: {str_mode}", False, (0, 0, 0))
-		DISPLAYSURF.blit(text_surface, (0, 40))
+		text_surface = self.my_font.render(f"Modo: {str_mode}", False, (0, 0, 0))
+		self.DISPLAYSURF.blit(text_surface, (0, 40))
 
 	def move_node(self, node: Node, rel_pos: (int, int)) -> None:
 		node.body.move_ip(rel_pos)

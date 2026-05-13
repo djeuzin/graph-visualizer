@@ -8,17 +8,29 @@ from node import *
 from graph import Graph
 from globals import *
 
-def init_screen():
+def init_graph() -> Graph:
 	pygame.init()
-	DISPLAYSURF.fill(WHITE)
+	pygame.font.init()
+
+	G = Graph()
+
+	G.DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	G.DISPLAYSURF.fill(WHITE)
 	FPS = pygame.time.Clock()
+
+	G.font_path = pygame.font.get_default_font()
+	G.my_font = pygame.font.SysFont(G.font_path, 30)
+	G.label_font = pygame.font.SysFont(G.font_path, 18)
+	G.label_offset = (-7, -7)
+	
 	FPS.tick(60)
 	pygame.display.set_caption("Graph visualizer")
 
-def main():
-	init_screen()
+	return G
 
-	G = Graph()
+def main():
+	G = init_graph()
+
 	active_node = None
 
 	while True:
