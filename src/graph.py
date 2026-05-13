@@ -11,7 +11,6 @@ class Graph:
 	adjacency_dict: dict[str, list[str]]
 	V: int
 	E: int
-	deg_list: list[int]
 	nodes: dict[str, list[Node]]
 	edit_mode: bool
 	to_connect: list[Node]
@@ -25,15 +24,13 @@ class Graph:
 		with open(GRAPH_PATH, 'r') as file:
 			self.adjacency_dict = json.load(file)
 
-		self.deg_list = []
 		self.nodes = {}
 		self.V = self.E = 0
 		self.edit_mode = False
 		self.to_connect = []
 
 		for node in self.adjacency_dict.keys():
-			self.deg_list.append(len(self.adjacency_dict[node]))
-			self.E += self.deg_list[-1]
+			self.E += len(self.adjacency_dict[node])
 			self.V += 1
 
 			center = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
