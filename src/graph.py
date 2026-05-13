@@ -44,6 +44,10 @@ class Graph:
 	def _connect_nodes(self, n: Node, m: Node) -> None:
 		pygame.draw.line(self.surface, BLACK, n.center, m.center)
 
+	def save_in_file(self):
+		with open(GRAPH_PATH, 'w') as file:
+			json.dump(self.adjacency_dict, file, indent=4)
+
 	def draw(self) -> None:
 		self.surface.fill(WHITE)
 
