@@ -14,8 +14,8 @@ def init_graph() -> Graph:
 
 	G = Graph()
 
-	G.DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-	G.DISPLAYSURF.fill(WHITE)
+	G.surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	G.surface.fill(WHITE)
 	FPS = pygame.time.Clock()
 
 	G.font_path = pygame.font.get_default_font()
